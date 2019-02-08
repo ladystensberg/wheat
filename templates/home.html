@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="row">
+		
+
+
+	{% for recipe in recipes %}
+	<div class="col sm-3 md-3 lg-3">
+		<div class="card" style="width: 18rem;">
+			<img src="{{ url_for('static', filename='images/food-generic.jpg' )}}" class="card-img-top" alt="image of food">
+			<div class="card-body">
+				<h5 class="card-title">{{recipe['title']}}</h5>
+				<p class="card-text">{{recipe['desc']}}</p>
+			</div>
+			<div class="card-body">
+				<a href="#" class="card-link">Recipe</a>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock content %}
