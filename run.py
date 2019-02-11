@@ -1,8 +1,9 @@
-from flask import Flask, render_template, url_for
-import urllib.request
+from flask import Flask, render_template, url_for, flash, redirect
+from forms import RegistrationForm, LoginForm
 import requests
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 recipes = [
 	{
@@ -72,11 +73,31 @@ recipes = [
 ]
 
 @app.route('/')
-def hello():
-	r = requests.get('https://www.food2fork.com/api/search?key=4c35304520e416705a32ee2cc96ccb1d')
-	json_resp = r.json()
-	recipes = json_resp['recipes']
+def home():
+	# r = requests.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?diet=vegan",
+	# 	headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
+	# json_resp = r.json()
+	# recipes = json_resp['results']
 	return render_template('home.html', recipes=recipes)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+	form = RegistrationForm()
+	if form.validate_on_submit():
+		flash(f'Account created for {form.username.data}!', 'success')
+		return redirect(url_for('home'))
+	return render_template('register.html', title='Register', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	form = LoginForm()
+	if form.validate_on_submit():
+		if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+			flash('You have been logged in!', 'success')
+			return redirect(url_for('home'))
+		else:
+			flash('Login Unsuccessful. Please check user and password.', 'danger')
+	return render_template('login.html', title='Login', form=form)
 
 if __name__ == '__main__':
 	app.run(debug=True,port=5000)
