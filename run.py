@@ -1,9 +1,23 @@
+from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect
+from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, LoginForm
 import requests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class User(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	username = db.Column(db.String(20), unique=True, nullable=False)
+	email = db.Column(db.String(120), unique=True, nullable=False)
+	password = db.Column(db.String(60), nullable=False)
+	# recipes = db.relationship('Recipe', backref='user', lazy=True)
+	# meal_plans = db.relationship('Meal Plan', backref='user', lazy=True)
+
 
 recipes = [
 	{
@@ -12,6 +26,8 @@ recipes = [
 		'ingredients': [
 			'cheese', 'noodles'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	},
 	{
@@ -20,6 +36,8 @@ recipes = [
 		'ingredients': [
 			'carrots', 'peas', 'flour'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	},
 		{
@@ -28,6 +46,8 @@ recipes = [
 		'ingredients': [
 			'cheese', 'noodles'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	},
 	{
@@ -36,6 +56,8 @@ recipes = [
 		'ingredients': [
 			'carrots', 'peas', 'flour'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	},
 		{
@@ -44,6 +66,8 @@ recipes = [
 		'ingredients': [
 			'cheese', 'noodles'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	},
 	{
@@ -52,6 +76,8 @@ recipes = [
 		'ingredients': [
 			'carrots', 'peas', 'flour'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	},
 		{
@@ -60,6 +86,8 @@ recipes = [
 		'ingredients': [
 			'cheese', 'noodles'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	},
 	{
@@ -68,16 +96,18 @@ recipes = [
 		'ingredients': [
 			'carrots', 'peas', 'flour'
 		],
+		'image': 'test.jpg',
+		'sourceUrl': '#',
 		'kcal': 250
 	}
 ]
 
 @app.route('/')
 def home():
-	# r = requests.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search?diet=vegan",
+	# r = requests.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=10&tags=vegan",
 	# 	headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
 	# json_resp = r.json()
-	# recipes = json_resp['results']
+	# recipes = json_resp['recipes']
 	return render_template('home.html', recipes=recipes)
 
 @app.route('/register', methods=['GET', 'POST'])
