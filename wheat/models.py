@@ -29,7 +29,6 @@ class RecipeBox(db.Model):
 	def __repr__(self):
 		return f"Recipe Box('{self.user_id}')"
 
-
 class Recipe(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	spoonacular_id = db.Column(db.Integer)

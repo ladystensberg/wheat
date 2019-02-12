@@ -1,4 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>{{ current_user.username }}</h1>
+    {% if current_user.recipe_box %}
+        <p>Recipes would go here</p>
+    {% else %}
+        <p>You currently have no recipes in your recipe box.</p>
+    {% endif %}
+
+    {% if current_user.pantry %}
+        <p>Ingredients would go here</p>
+    {% else %}
+        <p>You currently have no ingredients in your pantry.</p>
+    {% endif %}
 {% endblock content %}
