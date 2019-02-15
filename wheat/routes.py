@@ -101,3 +101,14 @@ def account():
 		db.session.commit()
 		print(ingredient)
 	return render_template('account.html', title='Account', form=form)
+
+@app.route("/ingredient/<int:ingredient_id>/delete", methods=['POST'])
+@login_required
+def delete_ingredient(ingredient_id):
+	ingredient = Ingredient.query.get(ingredient_id)
+	if ingredient.user != current_user:
+		print("error") #TODO
+	db.session.delete(ingredient)
+	db.session.commit()
+	flash(f"{ingredient.ingredient_name} has been deleted", 'success')
+	return redirect(url_for('account'))
