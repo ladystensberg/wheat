@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from wheat import app, db, bcrypt
-from wheat.forms import RegistrationForm, LoginForm
-from wheat.models import User, Pantry, RecipeBox, Recipe, Ingredient
+from wheat.forms import RegistrationForm, LoginForm, AddToPantry
+from wheat.models import User, Recipe, Ingredient
 from flask_login import login_user, current_user, logout_user, login_required
 import requests
 
@@ -80,7 +80,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('account'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -91,7 +91,13 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route("/account")
+@app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
-	return render_template('account.html', title='Account')
+	form = AddToPantry()
+	if form.validate_on_submit():
+		ingredient = Ingredient(ingredient_name=form.ingredient_name.data, user=current_user)
+		db.session.add(ingredient)
+		db.session.commit()
+		print(ingredient)
+	return render_template('account.html', title='Account', form=form)

@@ -6,10 +6,33 @@
     {% else %}
         <p>You currently have no recipes in your recipe box.</p>
     {% endif %}
-
-    {% if current_user.pantry %}
-        <p>Ingredients would go here</p>
+    {% if current_user.pantry_items %}
+        <h2>Pantry Items</h2>
+        {% for item in current_user.pantry_items %}
+            <p>{{ item.ingredient_name }} <a href="#">X</a></p>
+        {% endfor %}
     {% else %}
         <p>You currently have no ingredients in your pantry.</p>
     {% endif %}
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Add to Pantry</legend>
+            <div class="form-group">
+                {{ form.ingredient_name.label(class="form-control-label") }}
+                {% if form.ingredient_name.errors %}
+                    {{ form.ingredient_name(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.ingredient_name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.ingredient_name(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
 {% endblock content %}
