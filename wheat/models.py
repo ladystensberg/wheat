@@ -34,7 +34,7 @@ class Ingredient(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
-		return f"Recipe('{self.ingredient_name}')"
+		return f"Ingredient('{self.ingredient_name}')"
 
 # class RecipeBox(db.Model):
 # 	id = db.Column(db.Integer, primary_key=True)

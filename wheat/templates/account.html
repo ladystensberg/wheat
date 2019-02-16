@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>{{ current_user.username }}</h1>
-    {% if current_user.recipe_box %}
+    {% if current_user.recipes %}
         <p>Recipes would go here</p>
     {% else %}
         <p>You currently have no recipes in your recipe box.</p>
@@ -9,10 +9,11 @@
     {% if current_user.pantry_items %}
         <h2>Pantry Items</h2>
         {% for item in current_user.pantry_items %}
-        {{item.ingredient_name}}<form action="{{ url_for('delete_ingredient', ingredient_id=item.id) }}" method="POST">
-            <input class="btn btn-danger" type="submit" value="Delete">
-        </form>
+            <form class="ingredient-items" action="{{ url_for('delete_ingredient', ingredient_id=item.id) }}" method="POST">
+                <p>{{item.ingredient_name}}<input class="btn btn-outline-danger btn-sm" type="submit" value="X"></p>
+            </form>
         {% endfor %}
+        </ul>
     {% else %}
         <p>You currently have no ingredients in your pantry.</p>
     {% endif %}

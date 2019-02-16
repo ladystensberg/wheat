@@ -99,7 +99,7 @@ def account():
 		ingredient = Ingredient(ingredient_name=form.ingredient_name.data, user=current_user)
 		db.session.add(ingredient)
 		db.session.commit()
-		print(ingredient)
+		return redirect(url_for('account'))
 	return render_template('account.html', title='Account', form=form)
 
 @app.route("/ingredient/<int:ingredient_id>/delete", methods=['POST'])
