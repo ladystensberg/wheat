@@ -35,19 +35,3 @@ class Ingredient(db.Model):
 
 	def __repr__(self):
 		return f"Ingredient('{self.ingredient_name}')"
-
-# class RecipeBox(db.Model):
-# 	id = db.Column(db.Integer, primary_key=True)
-# 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-# 	recipes = db.relationship('Recipe', backref='recipe_box', lazy='dynamic')
-
-# 	def __repr__(self):
-# 		return f"Recipe Box('{self.user_id}')"
-
-# class Pantry(db.Model):
-# 	id = db.Column(db.Integer, primary_key=True)
-# 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-# 	ingredients = db.relationship('Ingredient', backref='pantry', lazy='dynamic')
-
-# 	def __repr__(self):
-# 		return f"Pantry('{self.id}')"

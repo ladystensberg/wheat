@@ -7,44 +7,16 @@ import requests
 
 recipes = [
 	{
-		'title': 'mac & cheese',
-		'desc': 'just like mom used to make!',
-		'ingredients': [
-			'cheese', 'noodles'
-		],
-		'image': 'test.jpg',
-		'sourceUrl': '#',
-		'kcal': 250
+		'spoonacular_id': 5
 	},
 	{
-		'title': 'veggie meatballs',
-		'desc': 'crispy no-meat meatballs',
-		'ingredients': [
-			'carrots', 'peas', 'flour'
-		],
-		'image': 'test.jpg',
-		'sourceUrl': '#',
-		'kcal': 250
-	},
-		{
-		'title': 'mac & cheese',
-		'desc': 'just like mom used to make!',
-		'ingredients': [
-			'cheese', 'noodles'
-		],
-		'image': 'test.jpg',
-		'sourceUrl': '#',
-		'kcal': 250
+		'spoonacular_id': 105
 	},
 	{
-		'title': 'veggie meatballs',
-		'desc': 'crispy no-meat meatballs',
-		'ingredients': [
-			'carrots', 'peas', 'flour'
-		],
-		'image': 'test.jpg',
-		'sourceUrl': '#',
-		'kcal': 250
+		'spoonacular_id': 35
+	},
+	{
+		'spoonacular_id': 485
 	}
 ]
 
