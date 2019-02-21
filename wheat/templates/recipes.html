@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<h1>Recipe Results by Ingredients</h1>
+	<div class="row">
+		{% for recipe in recipes %}
+		<div class="col sm-3 md-3 lg-3">
+			<div class="card" style="width: 18rem;">
+				<img src={{recipe['image']}} class="card-img-top" alt="image of food">
+				<div class="card-body">
+					<h5 class="card-title">{{recipe['title']}}</h5>
+                    <p class="card-text">Used Ingredients: {{recipe['usedIngredientCount']}}</p>
+                    <p class="card-text">Missed Ingredients: {{recipe['missedIngredientCount']}}</p>
+				</div>
+				<div class="card-body">
+					<a href="{{recipe['sourceUrl']}}" target="_blank" class="card-link">Recipe</a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+</div>
+{% endblock content %}

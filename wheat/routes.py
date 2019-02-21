@@ -22,11 +22,26 @@ recipes = [
 
 @app.route('/')
 def home():
-	# r = requests.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=10&tags=vegan",
-	# 	headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
-	# json_resp = r.json()
-	# recipes = json_resp['recipes']
+	r = requests.get("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number=10&tags=vegan",
+		headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
+	json_resp = r.json()
+	recipes = json_resp['recipes']
 	return render_template('home.html', recipes=recipes)
+
+@login_required
+@app.route('/recipes')
+def get_recipes():
+	ingredients = Ingredient.query.filter_by(user=current_user).all()
+	ingredients_list = []
+	for ingredient in ingredients:
+		ingredients_list.append(ingredient.ingredient_name)
+	joined_list = ','.join(ingredients_list)
+	r = requests.get(f"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=20&ranking=2&fillIngredients=true&ingredients={joined_list}",
+		headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
+	json_resp = r.json()
+	recipes = json_resp
+	print(recipes)
+	return render_template('recipes.html', recipes=recipes)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

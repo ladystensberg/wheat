@@ -33,5 +33,5 @@ class Ingredient(db.Model):
 	ingredient_name = db.Column(db.String(40), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-	def __repr__(self):
-		return f"Ingredient('{self.ingredient_name}')"
+	# def __repr__(self):
+	# 	return f"Ingredient('{self.ingredient_name}')"
