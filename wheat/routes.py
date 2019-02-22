@@ -7,29 +7,26 @@ import requests
 
 recipes = [
 	{
-		'spoonacular_id': 5
+		'image': 'image',
+		'title': 'Vegan Mac'
 	},
 	{
-		'spoonacular_id': 105
+		'image': 'image',
+		'title': 'Vegan Mac'
 	},
 	{
-		'spoonacular_id': 35
+		'image': 'image',
+		'title': 'Vegan Mac'
 	},
 	{
-		'spoonacular_id': 485
-	}
+		'image': 'image',
+		'title': 'Vegan Mac'
+	},
 ]
 
 @app.route('/')
 def home():
-	#params for request URL
-	results = "10"
-	tags = "vegan"
-
-	r = requests.get(f"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random?number={results}&tags={tags}",
-		headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
-	json_resp = r.json()
-	recipes = json_resp['recipes']
+	#TODO: Come up with new place for homepage
 	return render_template('home.html', recipes=recipes)
 
 @login_required
@@ -39,34 +36,20 @@ def get_recipes():
 	ingredients_list = []
 	for ingredient in ingredients:
 		ingredients_list.append(ingredient.ingredient_name)
-	
-	# params for request URL
 	joined_list = ','.join(ingredients_list)
-	diet = "vegan"
-	type = "main course" # options: main course, side dish, dessert, appetizer, salad, bread, breakfast, soup, beverage, sauce, or drink.
-	ranking = "0" # Whether to minimize missing ingredients (0), maximize used ingredients (1) first, or rank recipes by relevance (2).
-	fill_ingredients = "true" # Add information about the used and missing ingredients in each recipe.
-	add_recipe_info = "true" # BOOLEAN, true returns more info about the recipe
-	limit_license = "true"
-	offset = "0" # number of results to skip, 0-900
-	results = "20" # number of results to return, 0-100
-
-	r = requests.get(f"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/searchComplex?type={type}&diet={diet}&includeIngredients={joined_list}&ranking={ranking}&fillIngredients={fill_ingredients}&addRecipeInformation={add_recipe_info}&limitLicense={limit_license}&offset={offset}&number={results}",
-		headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
+	
+	health_labels = "vegan" # diet
+	api_id = "11066273"
+	api_key = "49d61e99071532d1650fdd122a74d07b"
+	search_term = "" #currently using ingredients but can enter other things here instead
+	first_result = "0"
+	last_result = "20"
+	excluded_ingredients = ""
+	
+	r = requests.get(f"https://api.edamam.com/search?q={joined_list}&app_id={api_id}&app_key={api_key}&from={first_result}&to={last_result}&health={health_labels}")
 	json_resp = r.json()
-	recipes = json_resp['results']
-	print(recipes)
+	recipes = json_resp['hits']
 	return render_template('recipes.html', recipes=recipes)
-
-@login_required
-@app.route('/recipes/<int:recipe_id>')
-def get_single_recipe(recipe_id):
-	r = requests.get(f"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/{recipe_id}/information",
-		headers={"X-RapidAPI-Key": "a4d9250a03mshf716453b81f6d76p16f050jsn2669fe7fd0fb"})
-	json_resp = r.json()
-	recipe = json_resp
-	print(recipe)
-	return render_template('recipe.html', recipe=recipe)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
