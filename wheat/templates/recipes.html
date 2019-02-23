@@ -12,7 +12,7 @@
 					<h5 class="card-title">{{recipe['recipe']['label']}}</h5>
 				</div>
 				<div class="card-body">
-					<a href="{{ url_for('get_single_recipe', recipe_uri=recipe['recipe']['uri']) }}" target="_blank" class="card-link">Recipe</a>
+					<a href="{{ recipe['recipe']['url'] }}" target="_blank" class="card-link">Recipe</a>
 				</div>
 			</div>
 		</div>

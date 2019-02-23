@@ -39,8 +39,9 @@ def get_recipes():
 	joined_list = ','.join(ingredients_list)
 	
 	health_labels = "vegan" # diet
-	api_id = "11066273"
-	api_key = "49d61e99071532d1650fdd122a74d07b"
+	
+	api_id = app.config['EDAMAM_API_ID']
+	api_key = app.config['EDAMAM_API_KEY']
 	search_term = "" #currently using ingredients but can enter other things here instead
 	first_result = "0"
 	last_result = "20"
